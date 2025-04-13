@@ -111,7 +111,7 @@ if plot_yn == "y":
         plt.show()
 
         combined_lsv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_lsv_dict.items()]))
-        combined_lsv_df.to_csv(os.path.join(main_path, f"{f}_combined_LSV.csv"), index=False)
+        combined_lsv_df.to_csv(os.path.join(main_path, f, f"{f}_combined_LSV.csv"), index=False)
 
 
         # Same procedure for the CV files, everything is same as above for LSV files. Only file name is changed.
@@ -142,7 +142,7 @@ if plot_yn == "y":
         plt.show()
 
         combined_cv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_cv_dict.items()]))
-        combined_cv_df.to_csv(os.path.join(main_path, f"{f}_combined_CV.csv"), index=False)
+        combined_cv_df.to_csv(os.path.join(main_path, f, f"{f}_combined_CV.csv"), index=False)
 
 else:
     # loop through each folder and read the LSV and CV files, while taking the E_red and pH values into account for the respective folder
@@ -176,7 +176,7 @@ else:
 
 
         combined_lsv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_lsv_dict.items()]))
-        combined_lsv_df.to_csv(os.path.join(main_path, f"{f}_combined_LSV.csv"), index=False)
+        combined_lsv_df.to_csv(os.path.join(main_path, f, f"{f}_combined_LSV.csv"), index=False)
 
         # Same procedure for the CV files
         for cv_file in cv_files:
@@ -196,7 +196,7 @@ else:
 
         
         combined_cv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_cv_dict.items()]))
-        combined_cv_df.to_csv(os.path.join(main_path, f"{f}_combined_CV.csv"), index=False)
+        combined_cv_df.to_csv(os.path.join(main_path, f, f"{f}_combined_CV.csv"), index=False)
 # Convert to DataFrames and save
 
 # Convert LSV master dictionary to DataFrame and save
