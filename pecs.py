@@ -82,7 +82,7 @@ if plot_yn == "y":
 
             # Define x and y labels and legend
             plt.xlabel('E vs RHE (V)')
-            plt.ylabel('Current Density')
+            plt.ylabel(r"Current Density (A/cm$^2$)")
             plt.legend(loc='upper right', bbox_to_anchor=(1, 1), fontsize=8)
 
             # Save individual output as a data frame and convert it into a CSV file
@@ -120,7 +120,7 @@ if plot_yn == "y":
 
             plt.plot(x, y, label=cv_file.split('\\')[-1].split('.')[0])
             plt.xlabel('E vs RHE (V)')
-            plt.ylabel('Current Density')
+            plt.ylabel(r"Current Density (A/cm$^2$)")
             plt.legend(loc='upper right', bbox_to_anchor=(1, 1), fontsize=8)
             
             df = pd.DataFrame({'E_vs_RHE': x, 'Current_density': y})
