@@ -68,6 +68,9 @@ if plot_yn == "y":
         lsv_files = glob.glob(os.path.join(main_path, f, "*lsv*.txt"))
         cv_files = glob.glob(os.path.join(main_path, f, "*cv*.txt"))
 
+        combined_lsv_dict = {}
+        combined_cv_dict = {}
+
         # Let us loop through the LSV files to read them one by one
         for lsv_file in lsv_files:
             # read the lsv file, and use our function to calculate x and y values (E vs RHE and current density)
@@ -91,6 +94,9 @@ if plot_yn == "y":
             lsv_master_dict[f"{key_base}_x"] = x
             lsv_master_dict[f"{key_base}_y"] = y
 
+            combined_lsv_dict[f"{lsv_file.replace('.txt', '')}_x"] = x
+            combined_lsv_dict[f"{lsv_file.replace('.txt', '')}_y"] = y
+
         # Once all the lsv files are read and plotted, show them as a single plot with all the data.
         # If you put these codes inside the loop, you will get individual plots for each file
         # But since we want to see all the lsv plots in a single plot, we will do it here
@@ -103,6 +109,9 @@ if plot_yn == "y":
         plt.savefig(os.path.join(main_path, f, "lsv_plot.pdf"), dpi=300)
         # Show the plot
         plt.show()
+
+        combined_lsv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_lsv_dict.items()]))
+        combined_lsv_df.to_csv(os.path.join(main_path, f"{f}_combined_LSV.csv"), index=False)
 
 
         # Same procedure for the CV files, everything is same as above for LSV files. Only file name is changed.
@@ -121,12 +130,19 @@ if plot_yn == "y":
             cv_master_dict[f"{key_base}_x"] = x
             cv_master_dict[f"{key_base}_y"] = y
 
+            combined_cv_dict[f"{cv_file.replace(".txt", "")}_x"] = x
+            combined_cv_dict[f"{cv_file.replace(".txt", "")}_y"] = y
+
+
         plt.grid()
         plt.title(f"Plot for {f}, CV")
         plt.tight_layout()
         plt.savefig(os.path.join(main_path, f, "cv_plot.png"), dpi=300)
         plt.savefig(os.path.join(main_path, f, "cv_plot.pdf"), dpi=300)
         plt.show()
+
+        combined_cv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_cv_dict.items()]))
+        combined_cv_df.to_csv(os.path.join(main_path, f"{f}_combined_CV.csv"), index=False)
 
 else:
     # loop through each folder and read the LSV and CV files, while taking the E_red and pH values into account for the respective folder
@@ -135,6 +151,9 @@ else:
         # The glob module is used to find all the pathnames matching a specified pattern
         lsv_files = glob.glob(os.path.join(main_path, f, "*lsv*txt"))
         cv_files = glob.glob(os.path.join(main_path, f, "*cv*txt"))
+
+        combined_lsv_dict = {}
+        combined_cv_dict = {}
 
         # Let us loop through the LSV files to read them one by one
         for lsv_file in lsv_files:
@@ -152,6 +171,13 @@ else:
             lsv_master_dict[f"{key_base}_x"] = x
             lsv_master_dict[f"{key_base}_y"] = y
 
+            combined_lsv_dict[f"{lsv_file.replace('.txt', '')}_x"] = x
+            combined_lsv_dict[f"{lsv_file.replace('.txt', '')}_y"] = y
+
+
+        combined_lsv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_lsv_dict.items()]))
+        combined_lsv_df.to_csv(os.path.join(main_path, f"{f}_combined_LSV.csv"), index=False)
+
         # Same procedure for the CV files
         for cv_file in cv_files:
             x, y = calculate_xy(cv_file, E_red, pH)
@@ -165,7 +191,12 @@ else:
             cv_master_dict[f"{key_base}_x"] = x
             cv_master_dict[f"{key_base}_y"] = y
 
+            combined_cv_dict[f"{cv_file.replace(".txt", "")}_x"] = x
+            combined_cv_dict[f"{cv_file.replace(".txt", "")}_y"] = y
 
+        
+        combined_cv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_cv_dict.items()]))
+        combined_cv_df.to_csv(os.path.join(main_path, f"{f}_combined_CV.csv"), index=False)
 # Convert to DataFrames and save
 
 # Convert LSV master dictionary to DataFrame and save
