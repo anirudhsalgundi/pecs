@@ -29,7 +29,7 @@ def calculate_xy(file, E_red, pH):
 
 
 main_path = str(input("Enter the main path: ")) # instead of input, you can directly define the path here "D\nam\data\20250411"
-folders = os.listdir(main_path) # Lists all the folders in the main path
+folders = [f for f in os.listdir(main_path) if os.path.isdir(os.path.join(main_path, f))]#os.listdir(main_path) # Lists all the folders in the main path
 
 E_reds, pHs = [], [] # Define empty lists to store E_red and pH values
 
@@ -94,8 +94,8 @@ if plot_yn == "y":
             lsv_master_dict[f"{key_base}_x"] = x
             lsv_master_dict[f"{key_base}_y"] = y
 
-            combined_lsv_dict[f"{lsv_file.replace('.txt', '')}_x"] = x
-            combined_lsv_dict[f"{lsv_file.replace('.txt', '')}_y"] = y
+            combined_lsv_dict[f"{lsv_file.split('\\')[-1].split('.')[0]}_x"] = x
+            combined_lsv_dict[f"{lsv_file.split('\\')[-1].split('.')[0]}_y"] = y
 
         # Once all the lsv files are read and plotted, show them as a single plot with all the data.
         # If you put these codes inside the loop, you will get individual plots for each file
@@ -130,8 +130,8 @@ if plot_yn == "y":
             cv_master_dict[f"{key_base}_x"] = x
             cv_master_dict[f"{key_base}_y"] = y
 
-            combined_cv_dict[f"{cv_file.replace(".txt", "")}_x"] = x
-            combined_cv_dict[f"{cv_file.replace(".txt", "")}_y"] = y
+            combined_cv_dict[f"{cv_file.split('\\')[-1].split('.')[0]}_x"] = x
+            combined_cv_dict[f"{cv_file.split('\\')[-1].split('.')[0]}_y"] = y
 
 
         plt.grid()
@@ -171,8 +171,8 @@ else:
             lsv_master_dict[f"{key_base}_x"] = x
             lsv_master_dict[f"{key_base}_y"] = y
 
-            combined_lsv_dict[f"{lsv_file.replace('.txt', '')}_x"] = x
-            combined_lsv_dict[f"{lsv_file.replace('.txt', '')}_y"] = y
+            combined_lsv_dict[f"{lsv_file.split('\\')[-1].split('.')[0]}_x"] = x
+            combined_lsv_dict[f"{lsv_file.split('\\')[-1].split('.')[0]}_y"] = y
 
 
         combined_lsv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_lsv_dict.items()]))
@@ -191,8 +191,8 @@ else:
             cv_master_dict[f"{key_base}_x"] = x
             cv_master_dict[f"{key_base}_y"] = y
 
-            combined_cv_dict[f"{cv_file.replace(".txt", "")}_x"] = x
-            combined_cv_dict[f"{cv_file.replace(".txt", "")}_y"] = y
+            combined_cv_dict[f"{cv_file.split('\\')[-1].split('.')[0]}_x"] = x
+            combined_cv_dict[f"{cv_file.split('\\')[-1].split('.')[0]}_y"] = y
 
         
         combined_cv_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in combined_cv_dict.items()]))
